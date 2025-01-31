@@ -29,10 +29,6 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
-  if (!id || !ObjectId.isValid(id)) {
-    return res.status(400).send("Invalid or missing ID");
-  }
-
   if (!id) {
     return res.status(400).send("Id is required");
   }
