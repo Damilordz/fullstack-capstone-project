@@ -19,6 +19,11 @@ router.post("/register", async (req, res) => {
 
     const existingEmail = await collection.findOne({ email: req.body.email });
 
+    if (existingEmail) {
+      logger.error("Email already exists");
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
     const salt = await bcryptjs.genSalt(10);
     const hash = await bcryptjs.hash(req.body.password, salt);
     const email = req.body.email;
@@ -47,6 +52,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   console.log("\n\n Inside login");
+
   try {
     // const collection = await connectToDatabase();
     const db = await connectToDatabase();
